@@ -1,0 +1,49 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.yg.callvib'
+    compileSdk 37
+
+    defaultConfig {
+        applicationId "com.yg.callvib"
+        minSdk 31
+        targetSdk 31
+        versionCode 3
+        versionName "2.1"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    signingConfigs {
+        release {
+            // 用环境变量提供，不要把 keystore 提交进仓库
+            if (System.getenv("KEYSTORE") != null) {
+                storeFile file(System.getenv("KEYSTORE"))
+                storePassword System.getenv("KS_PASS")
+                keyAlias System.getenv("KS_ALIAS")
+                keyPassword System.getenv("KEY_PASS")
+            }
+        }
+    }
+
+    lint {
+        // 目标 SDK 故意保持 31（行为与 Android 12 实测一致）；这条是「Play 上架要求」，与自签名分发无关。
+        disable 'ExpiredTargetSdkVersion'
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            if (System.getenv("KEYSTORE") != null) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+}

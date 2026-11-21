@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">拨通震动</string>
+    <string name="a11y_desc">仅在通话中读取通话界面的通话时长，用于判断对方是否已接通（不读取其它内容）。</string>
+</resources>
